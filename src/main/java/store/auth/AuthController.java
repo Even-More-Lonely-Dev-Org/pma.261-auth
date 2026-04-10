@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import insper.store.account.AccountOut;
 
@@ -29,13 +30,18 @@ public interface AuthController {
     );
 
     @GetMapping("/auth/whoiam")
-    public ResponseEntity<AccountOut> whoIAm();
+    public ResponseEntity<AccountOut> whoIAm(
+        @RequestHeader(value = "id-account", required = true) String idAccount
+    );
 
     @GetMapping("/auth/health-check")
     public ResponseEntity<Void> healthCheck();
 
     @PostMapping("/auth/solve")
     public ResponseEntity<Map<String, String>> solveToken(
-        TokenOut map
+        @RequestBody TokenOut map
     );
+
+    @GetMapping("/auth/logout")
+    public ResponseEntity<Void> logout();
 }
